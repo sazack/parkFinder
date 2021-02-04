@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+table {
+  width: 100vw;
+  height: 80vh;
+  table-layout: fixed;
+}
+
+th {
+  overflow: hidden;
+  width:auto;
+  /*text-overflow: ellipsis;*/
+  background: teal;
+
+  /*white-space: nowrap;*/
+  /*justify-content: center;*/
+}
+tr {
+  overflow: hidden;
+  width:auto;
+  color: #24292e;
+  /*text-overflow: ellipsis;*/
+  /*background: floralwhite;*/
+
+  /*white-space: nowrap;*/
+  /*justify-content: center;*/
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}

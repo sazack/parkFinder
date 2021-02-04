@@ -1,0 +1,60 @@
+<div class="mat-elevation-z8">
+  <table mat-table matSort [dataSource]="dataSource">
+
+
+    <!--To make the table dynamically populate //
+    I chose to go against it because of intricate data structure and some fields that need to be looped through
+     -->
+<!--    <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">-->
+<!--      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>-->
+<!--      <td mat-cell *matCellDef="let park"> {{park[column]}} </td>-->
+<!--    </ng-container>-->
+
+    <ng-container matColumnDef="fullName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let park"> {{park.fullName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let park"> {{park.description | slice: 0:100}} </td>
+    </ng-container>
+    <ng-container matColumnDef="states">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> States </th>
+      <td mat-cell *matCellDef="let park"> {{park.states}} </td>
+    </ng-container>
+    <ng-container matColumnDef="contacts">
+      <th mat-header-cell *matHeaderCellDef> Contacts </th>
+      <td mat-cell *matCellDef="let park"> {{park.contacts}} </td>
+    </ng-container>
+    <ng-container matColumnDef="entranceFees">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Fees ($) </th>
+      <td mat-cell *matCellDef="let park"> {{park.entranceFees}} </td>
+    </ng-container>
+    <ng-container matColumnDef="operatingHours">
+      <th mat-header-cell *matHeaderCellDef> Hours </th>
+      <td mat-cell *matCellDef="let park">
+        <ng-container *ngFor="let item of park.operatingHours | keyvalue">
+          {{item.key | slice: 0: 3}} : {{item.value}}
+          <br/>
+        </ng-container>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="addresses">
+      <th mat-header-cell *matHeaderCellDef> Address </th>
+      <td mat-cell *matCellDef="let park"> {{park.addresses}} </td>
+    </ng-container>
+    <ng-container matColumnDef="designation" >
+      <th mat-header-cell *matHeaderCellDef> Designation </th>
+      <td mat-cell *matCellDef="let park"> {{park.designation}} </td>
+    </ng-container>
+    <ng-container matColumnDef="activities">
+      <th mat-header-cell *matHeaderCellDef> Activities </th>
+      <td mat-cell *matCellDef="let park"> {{park.activities}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
