@@ -12,6 +12,10 @@ export class ObjectDestructor {
     const keyList = Object.keys(collection[0]);
     for (const key of keyList){
       for (const record of collection) {
+        // deleteing this fields as geospatial fields are better suited to be displayed on Maps than table
+        // Same with Directions, if the latlong could have been displayed on a map we could have just used Gmaps module for direction
+        // activities had a separate end point and could have been a part of a subpage
+        // fullName serves the purpose of the name field
         delete record.directionsInfo;
         delete record.latitude;
         delete record.longitude;
@@ -26,7 +30,8 @@ export class ObjectDestructor {
         delete record.parkCode;
         delete record.id;
         delete record.activities;
-
+        //destructuring the multi level nesting to simplify the table. some of the multilevel objects could be a
+        // separate request if the project is expanded and can be presentaed in a modal
         if (Array.isArray(record[key]) || typeof (record[key]) === 'object') {
           switch (key) {
             case 'entranceFees':

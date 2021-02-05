@@ -1,7 +1,7 @@
 import * as express from 'express';
 import {urlencoded, json} from 'body-parser';
 import * as http from 'http';
-import {myRouter} from './routes/index';
+import {myRouter} from './routes';
 
 class NodeApp {
   Express: express.Express;
