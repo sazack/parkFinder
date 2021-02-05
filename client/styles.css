@@ -4,7 +4,7 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 table {
   width: 100vw;
-  height: 80vh;
+  /*height: 80vh;*/
   table-layout: fixed;
 }
 
@@ -30,4 +30,7 @@ tr {
 
 th.mat-sort-header-sorted {
   color: black;
+}
+input {
+  background: teal;
 }

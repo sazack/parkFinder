@@ -1,4 +1,11 @@
 <div class="mat-elevation-z8">
+  <mat-form-field class="filter">
+<!--    <mat-label>Search</mat-label>-->
+    <label>
+      <mat-label> Search by Park Name</mat-label>
+      <input matInput [formControl]="fullNameFilter" >
+    </label>
+  </mat-form-field>
   <table mat-table matSort [dataSource]="dataSource">
 
 
