@@ -1,56 +1,72 @@
 import { Component, OnInit } from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {first} from 'rxjs/operators';
-import {AuthService} from '../service/auth.service';
+import {ActivatedRoute, Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
 
-  // @ts-ignore
-  loginForm: FormGroup;
-  // @ts-ignore
-  loading = false;
-  // @ts-ignore
-  submitted = false;
-  // @ts-ignore
+  constructor() { }
+  public gapiSetup = false;
+  authInstance: gapi.auth2.GoogleAuth;
+  user: gapi.auth2.GoogleUser;
+  error: string;
   returnUrl: string;
-  constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private authService: AuthService
-  ) {
+  private route: ActivatedRoute;
+  private router: Router;
+
+  async ngOnInit() {
+    if (await this.checkIfUserAuthenticated()) {
+      this.user = this.authInstance.currentUser.get();
+    }
+    // return this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
 
   }
+  async initGoogleAuth(): Promise <void>{
+    const pload = new Promise((resolve => gapi.load('auth2', resolve)));
 
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+    return pload.then(async () => {
+      await gapi.auth2.init({client_id:'dummy_client_id'})
+        .then(auth => {
+          this.gapiSetup = true;
+          this.authInstance = auth;
+        });
     });
-
-    return this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
-  // tslint:disable-next-line:typedef
-  get f() { return this.loginForm.controls; }
 
   // @ts-ignore
-  // tslint:disable-next-line:typedef
-  onSubmit() {
-    this.submitted = true;
-    this.authService.login(this.f.username.value, this.f.password.value);
-    // @ts-ignore
-    // @ts-ignore
-    this.router.navigate([this.returnUrl]);
+  async authenticate(): Promise<gapi.auth2.GoogleUser> {
+    if (!this.gapiSetup) {
+      await this.initGoogleAuth();
+    }
+    return new Promise(async () => {
+      // @ts-ignore
+      await this.authInstance.signIn().then((user, error) => {
+          if (user){
+            // localStorage.setItem('currentUser', user.access_token);
+            // this.router.navigate(['']);
+          } else {
+            return new Error(error);
+          }
+        }
+      );
+    });
+  }
+  async checkIfUserAuthenticated(): Promise<boolean> {
+    if (!this.gapiSetup) {
+      await this.initGoogleAuth();
+    }
 
-
-    // tslint:disable-next-line:typedef
-    // @ts-ignore
-    console.log('submitted');
+    return this.authInstance.isSignedIn.get();
+  }
+  async logOut() {
+    const auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(() => {
+      this.router.navigate(['/login']);
+    });
   }
 }
+

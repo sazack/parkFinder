@@ -43,8 +43,6 @@ export class HomeComponent implements OnInit {
     await this.loadParkData();
 
     await this.fullNameFilter.valueChanges.subscribe( fullName => {
-      console.log(fullName);
-      console.log('please work');
       this.filteredParks.fullName = fullName.toLowerCase();
       this.dataSource.filter = this.filteredParks;
     })
