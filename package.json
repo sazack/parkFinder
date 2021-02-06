@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "server": "npx nodemon --watch server/**/*.ts --ignore server/**/*.spec.ts --exec ts-node server/index.ts"
+    "server": "ts-node server/index.ts"
   },
   "private": true,
   "dependencies": {
